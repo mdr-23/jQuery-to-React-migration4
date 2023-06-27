@@ -1,23 +1,45 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const [task, setTask] = useState([])
+  const [taskList, setTaskList] = useState([])
+
+  const newTask = (event) => {
+    const inputTask = event.target.value
+    if(inputTask !== ""){
+      setTask(inputTask)
+    }
+  }
+
+  const addTask = (e) => {
+    e.preventDefault();
+    if(task !== ""){
+      setTaskList([...taskList, task])
+      setTask("")
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+        <h1>Lista de Tareas</h1>
+        
+        <form onSubmit={addTask}>
+            <input type="text" placeholder="Nueva tarea" onChange={newTask}/>
+            <button type="submit">Agregar tarea</button>
+        </form>
+        
+        <ul>
+            <li>Tarea 1</li>
+            <li>Tarea 2</li>
+            <li>Tarea 3</li>
+            {taskList.map((value, index) =>
+            <li key={index}>{value}</li>
+            )}
+        </ul>
+
     </div>
   );
 }
